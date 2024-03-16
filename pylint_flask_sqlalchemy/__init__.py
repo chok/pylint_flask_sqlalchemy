@@ -45,7 +45,7 @@ def transform(node: NodeNG) -> None:
         for module in sqlalchemy, sqlalchemy.orm:
             for key in sorted(module.__all__, key=sort_module_keys):
                 if key not in FLASK_SQLALCHEMY_WRAPS:
-                    node.locals[key] = [ClassDef(key, None)]
+                    node.locals[key] = [ClassDef(key, None, 0, node, end_lineno=None, end_col_offset=None)]
                 else:
                     node.locals[key] = [
                         ClassDef(key, None),
@@ -57,9 +57,9 @@ def transform(node: NodeNG) -> None:
         for key in sorted(dir(Session), reverse=True):
             # `query` is in fact a proxy to `query_property`
             if key == "query":
-                node.locals[key] = [ClassDef(key, None), node.locals["query_property"]]
+                node.locals[key] = [ClassDef(key, None, 0, node, end_lineno=None, end_col_offset=None), node.locals["query_property"]]
             else:
-                node.locals[key] = [ClassDef(key, None)]
+                node.locals[key] = [ClassDef(key, None, 0, node, end_lineno=None, end_col_offset=None)]
 
 
 MANAGER.register_transform(ClassDef, transform)
