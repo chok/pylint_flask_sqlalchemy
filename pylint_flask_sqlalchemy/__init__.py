@@ -48,7 +48,7 @@ def transform(node: NodeNG) -> None:
                     node.locals[key] = [ClassDef(key, None, 0, node, end_lineno=None, end_col_offset=None)]
                 else:
                     node.locals[key] = [
-                        ClassDef(key, None),
+                        ClassDef(key, None, 0, node, end_lineno=None, end_col_offset=None),
                         node.locals["Query"]
                     ]
     elif node.name == "scoped_session":
